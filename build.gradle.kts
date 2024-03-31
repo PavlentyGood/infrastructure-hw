@@ -7,6 +7,7 @@ plugins {
 	kotlin("plugin.spring") version "1.3.50"
 	id("org.jetbrains.kotlin.plugin.jpa") version "1.3.50" apply false
 	id("com.palantir.docker") version "0.36.0"
+	id("com.palantir.docker-compose") version "0.36.0"
 }
 
 docker {
