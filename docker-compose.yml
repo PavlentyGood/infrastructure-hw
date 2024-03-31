@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+
+  people:
+    image: people
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    hostname: people-db
+    image: postgres:16.2
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: people
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
