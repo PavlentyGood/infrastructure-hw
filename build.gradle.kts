@@ -6,6 +6,12 @@ plugins {
 	kotlin("jvm") version "1.3.50"
 	kotlin("plugin.spring") version "1.3.50"
 	id("org.jetbrains.kotlin.plugin.jpa") version "1.3.50" apply false
+	id("com.palantir.docker") version "0.36.0"
+}
+
+docker {
+	name = project.name
+	copySpec.from("build/libs").into("build/libs")
 }
 
 allprojects {
@@ -73,4 +79,8 @@ dependencies {
 
 tasks.test {
 	useJUnitPlatform()
+}
+
+tasks.docker.configure {
+	dependsOn(tasks.bootJar)
 }
