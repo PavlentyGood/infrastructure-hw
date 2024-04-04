@@ -9,11 +9,16 @@ plugins {
 	id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion apply false
 	id("com.palantir.docker") version "0.36.0"
 	id("com.palantir.docker-compose") version "0.36.0"
+	id("io.gitlab.arturbosch.detekt") version "1.11.0"
 }
 
 docker {
 	name = project.name
 	copySpec.from("build/libs").into("build/libs")
+}
+
+detekt {
+	buildUponDefaultConfig = true
 }
 
 allprojects {
