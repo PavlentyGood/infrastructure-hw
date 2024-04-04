@@ -1,11 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+	val kotlinVersion = "1.6.0"
 	id("org.springframework.boot") version "2.2.1.BUILD-SNAPSHOT"
 	id("io.spring.dependency-management") version "1.0.8.RELEASE"
-	kotlin("jvm") version "1.3.50"
-	kotlin("plugin.spring") version "1.3.50"
-	id("org.jetbrains.kotlin.plugin.jpa") version "1.3.50" apply false
+	kotlin("jvm") version kotlinVersion
+	kotlin("plugin.spring") version kotlinVersion
+	id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion apply false
 	id("com.palantir.docker") version "0.36.0"
 	id("com.palantir.docker-compose") version "0.36.0"
 }
@@ -71,7 +72,7 @@ dependencies {
 	implementation("org.liquibase:liquibase-core:4.9.1")
 
 	// tests
-	testCompile("org.junit.jupiter:junit-jupiter-api:5.8.2")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
