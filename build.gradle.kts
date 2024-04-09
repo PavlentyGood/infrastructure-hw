@@ -10,6 +10,7 @@ plugins {
 	id("com.palantir.docker") version "0.36.0"
 	id("com.palantir.docker-compose") version "0.36.0"
 	id("io.gitlab.arturbosch.detekt") version "1.11.0"
+	jacoco
 }
 
 docker {
@@ -86,6 +87,22 @@ dependencies {
 
 tasks.test {
 	useJUnitPlatform()
+	finalizedBy(tasks.jacocoTestReport)
+	finalizedBy(tasks.jacocoTestCoverageVerification)
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+}
+
+tasks.jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				minimum = "0.2".toBigDecimal()
+			}
+		}
+	}
 }
 
 tasks.docker.configure {
