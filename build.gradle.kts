@@ -11,6 +11,7 @@ plugins {
 	id("com.palantir.docker-compose") version "0.36.0"
 	id("io.gitlab.arturbosch.detekt") version "1.11.0"
 	id("com.github.ben-manes.versions") version "0.51.0"
+	id("org.owasp.dependencycheck") version "8.2.1"
 	jacoco
 }
 
@@ -21,6 +22,10 @@ docker {
 
 detekt {
 	buildUponDefaultConfig = true
+}
+
+dependencyCheck {
+	analyzers.assemblyEnabled = false
 }
 
 allprojects {
