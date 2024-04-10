@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm")
+    id("net.researchgate.release")
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8

@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     id("io.spring.dependency-management")
+    id("net.researchgate.release")
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8

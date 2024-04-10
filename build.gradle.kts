@@ -12,6 +12,7 @@ plugins {
 	id("io.gitlab.arturbosch.detekt") version "1.11.0"
 	id("com.github.ben-manes.versions") version "0.51.0"
 	id("org.owasp.dependencycheck") version "8.2.1"
+	id("net.researchgate.release") version "3.0.2"
 	jacoco
 }
 
