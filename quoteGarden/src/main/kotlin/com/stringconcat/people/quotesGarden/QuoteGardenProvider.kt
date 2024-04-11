@@ -2,8 +2,11 @@ package com.stringconcat.people.quotesGarden
 
 import com.stringconcat.people.businessPeople.Quote
 import com.stringconcat.people.businessPeople.QuotesProvider
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.client.ClientHttpResponse
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.ResponseErrorHandler
 import org.springframework.web.client.RestTemplate
 import javax.inject.Named
@@ -20,7 +23,11 @@ class QuoteGardenProvider : QuotesProvider {
         val restTemplate = RestTemplate()
         restTemplate.errorHandler = EmptyErrorHandler()
 
-        val response = restTemplate.getForEntity(getRandomUrl, QuoteResponse::class.java)
+        val headers = LinkedMultiValueMap<String, String>()
+        headers.add("User-Agent", "HttpClient")
+        val entity = HttpEntity(null, headers)
+
+        val response = restTemplate.exchange(getRandomUrl, HttpMethod.GET, entity, QuoteResponse::class.java)
 
         check(response.statusCode == HttpStatus.OK) {
             return defaultQuote
