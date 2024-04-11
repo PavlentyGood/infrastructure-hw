@@ -115,3 +115,7 @@ tasks.jacocoTestCoverageVerification {
 tasks.docker.configure {
 	dependsOn(tasks.bootJar)
 }
+
+tasks.check {
+	finalizedBy(tasks.dependencyUpdates)
+}
