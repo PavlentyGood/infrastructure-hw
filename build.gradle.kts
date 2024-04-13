@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	val kotlinVersion = "1.6.0"
-	id("org.springframework.boot") version "2.2.1.BUILD-SNAPSHOT"
+	id("org.springframework.boot") version "2.2.1.RELEASE"
 	id("io.spring.dependency-management") version "1.0.8.RELEASE"
 	kotlin("jvm") version kotlinVersion
 	kotlin("plugin.spring") version kotlinVersion
@@ -36,8 +36,6 @@ allprojects {
 	repositories {
 		mavenCentral()
 		jcenter()
-		maven { url = uri("https://repo.spring.io/milestone") }
-		maven { url = uri("https://repo.spring.io/snapshot") }
 	}
 
 	tasks.withType<KotlinCompile> {
