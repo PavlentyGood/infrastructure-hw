@@ -15,11 +15,6 @@ data class Person(
         var avatartUrl: String = DEFAULT_ROBOT_AVATAR,
         val favoriteQuote: String
 ) {
-
-    fun mature(forDate: LocalDate = LocalDate.now()): Boolean =
-            age(forDate) > 40
-
-
     fun age(forDate: LocalDate = LocalDate.now()): Year =
             Period.between(forDate, birthDate).years
 
