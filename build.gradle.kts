@@ -33,6 +33,10 @@ allprojects {
 	group = "com.stringconcat"
 	version = "0.0.1-SNAPSHOT"
 
+	apply {
+		plugin("io.gitlab.arturbosch.detekt")
+	}
+
 	repositories {
 		mavenCentral()
 		jcenter()
