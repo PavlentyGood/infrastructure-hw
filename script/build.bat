@@ -1,3 +1,3 @@
 cd ..
-call gradlew bootJar
+call gradlew build
 call docker build . -t people

@@ -1,3 +1,11 @@
 performance:
   SpreadOperator:
     excludes: ['**/PeopleApplication.kt', '**/test/**']
+style:
+  ReturnCount:
+    max: 3
+  UnusedImports:
+    active: true
+  UnusedPrivateMember:
+    active: true
+    allowedNames: '(_|ignored|expected|serialVersionUID)'

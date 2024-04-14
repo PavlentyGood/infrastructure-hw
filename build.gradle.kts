@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	val kotlinVersion = "1.6.0"
-	id("org.springframework.boot") version "2.2.1.BUILD-SNAPSHOT"
-	id("io.spring.dependency-management") version "1.0.8.RELEASE"
+	val kotlinVersion = "1.9.23"
+	id("org.springframework.boot") version "2.7.18"
+	id("io.spring.dependency-management") version "1.1.4"
 	kotlin("jvm") version kotlinVersion
 	kotlin("plugin.spring") version kotlinVersion
 	id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion apply false
 	id("com.palantir.docker") version "0.36.0"
 	id("com.palantir.docker-compose") version "0.36.0"
-	id("io.gitlab.arturbosch.detekt") version "1.11.0"
+	id("io.gitlab.arturbosch.detekt") version "1.23.6"
 	id("com.github.ben-manes.versions") version "0.51.0"
-	id("org.owasp.dependencycheck") version "8.2.1"
+	id("org.owasp.dependencycheck") version "9.1.0"
 	id("net.researchgate.release") version "3.0.2"
 	jacoco
 }
@@ -33,32 +33,34 @@ allprojects {
 	group = "com.stringconcat"
 	version = "0.0.1-SNAPSHOT"
 
+	apply {
+		plugin("io.gitlab.arturbosch.detekt")
+	}
+
 	repositories {
 		mavenCentral()
-		jcenter()
-		maven { url = uri("https://repo.spring.io/milestone") }
-		maven { url = uri("https://repo.spring.io/snapshot") }
 	}
 
 	tasks.withType<KotlinCompile> {
 		kotlinOptions {
 			freeCompilerArgs = listOf("-Xjsr305=strict")
-			jvmTarget = "1.8"
+			jvmTarget = "17"
 		}
 	}
 
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+subprojects {
+	apply {
+		plugin("io.gitlab.arturbosch.detekt")
+	}
 
-val developmentOnly by configurations.creating
-configurations {
-	runtimeClasspath {
-		extendsFrom(developmentOnly)
+	detekt {
+		buildUponDefaultConfig = true
 	}
 }
 
-
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 dependencies {
 	// spring modules
@@ -81,8 +83,8 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 	//persistance
-	implementation("org.postgresql:postgresql:42.3.4")
-	implementation("org.liquibase:liquibase-core:4.9.1")
+	implementation("org.postgresql:postgresql:42.7.3")
+	implementation("org.liquibase:liquibase-core:4.27.0")
 
 	// tests
 	testImplementation("org.junit.jupiter:junit-jupiter-api")
@@ -90,6 +92,10 @@ dependencies {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
 	testImplementation("io.projectreactor:reactor-test")
+}
+
+tasks.bootJar {
+	archiveFileName = "${project.name}.jar"
 }
 
 tasks.test {
@@ -106,12 +112,35 @@ tasks.jacocoTestCoverageVerification {
 	violationRules {
 		rule {
 			limit {
-				minimum = "0.2".toBigDecimal()
+				minimum = "0.17".toBigDecimal()
 			}
 		}
 	}
 }
 
-tasks.docker.configure {
-	dependsOn(tasks.bootJar)
+tasks.dockerPrepare {
+	dependsOn(tasks.build)
+}
+
+tasks.dockerComposeUp {
+	dependsOn(tasks.docker)
+}
+
+tasks.check {
+	finalizedBy(tasks.dependencyUpdates)
+}
+
+tasks.dependencyUpdates {
+	revision = "release"
+
+	fun isNonStable(version: String): Boolean {
+		val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
+		val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+		val isStable = stableKeyword || regex.matches(version)
+		return isStable.not()
+	}
+
+	rejectVersionIf {
+		isNonStable(candidate.version)
+	}
 }

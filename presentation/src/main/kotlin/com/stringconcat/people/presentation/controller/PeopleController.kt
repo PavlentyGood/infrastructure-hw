@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.ResponseBody
-import java.io.*
 import java.net.URI
 import java.util.*
 
@@ -36,7 +35,7 @@ class PeopleController(
     fun get(@PathVariable id: String): ResponseEntity<String> {
         val idUUD = try {
             UUID.fromString(id)
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             return ResponseEntity.badRequest().build()
         }
 
