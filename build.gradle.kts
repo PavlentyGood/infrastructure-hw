@@ -118,8 +118,12 @@ tasks.jacocoTestCoverageVerification {
 	}
 }
 
-tasks.docker.configure {
-	dependsOn(tasks.bootJar)
+tasks.dockerPrepare {
+	dependsOn(tasks.build)
+}
+
+tasks.dockerComposeUp {
+	dependsOn(tasks.docker)
 }
 
 tasks.check {
