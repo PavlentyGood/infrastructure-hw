@@ -50,6 +50,16 @@ allprojects {
 
 }
 
+subprojects {
+	apply {
+		plugin("io.gitlab.arturbosch.detekt")
+	}
+
+	detekt {
+		buildUponDefaultConfig = true
+	}
+}
+
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 dependencies {
