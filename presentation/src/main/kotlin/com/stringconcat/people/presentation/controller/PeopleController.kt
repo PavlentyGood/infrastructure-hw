@@ -35,7 +35,7 @@ class PeopleController(
     fun get(@PathVariable id: String): ResponseEntity<String> {
         val idUUD = try {
             UUID.fromString(id)
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             return ResponseEntity.badRequest().build()
         }
 

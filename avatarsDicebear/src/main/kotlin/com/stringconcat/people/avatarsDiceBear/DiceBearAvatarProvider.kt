@@ -9,7 +9,8 @@ class DiceBearAvatarProvider: AvatarProvider {
     override fun createForPerson(person: Person): String
     {
         val uniqueValue = person.firstName + person.secondName
-        return "https://avatars.dicebear.com/v2/${if (person.sex == Person.Sex.MAN) "male" else "female"}/$uniqueValue.svg"
+        val sex = if (person.sex == Person.Sex.MAN) "male" else "female"
+        return "https://avatars.dicebear.com/v2/$sex/$uniqueValue.svg"
     }
 
 }

@@ -11,7 +11,7 @@ import org.springframework.web.client.ResponseErrorHandler
 import org.springframework.web.client.RestTemplate
 import javax.inject.Named
 
-const val defaultQuote = "whoops, something went wrong"
+const val DEFAULT_QUOTE = "whoops, something went wrong"
 
 @Named
 class QuoteGardenProvider : QuotesProvider {
@@ -30,10 +30,10 @@ class QuoteGardenProvider : QuotesProvider {
         val response = restTemplate.exchange(getRandomUrl, HttpMethod.GET, entity, QuoteResponse::class.java)
 
         check(response.statusCode == HttpStatus.OK) {
-            return defaultQuote
+            return DEFAULT_QUOTE
         }
 
-        return response.body?.quoteText ?: defaultQuote
+        return response.body?.quoteText ?: DEFAULT_QUOTE
     }
 
     internal data class QuoteResponse(
