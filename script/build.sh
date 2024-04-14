@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 cd .. &&
-./gradlew bootJar &&
+./gradlew build &&
 docker build . -t people
